@@ -3,7 +3,6 @@
 -- Instances:
 
 local ScreenGui = Instance.new("ScreenGui")
-local TextButton = Instance.new("TextButton")
 local Frame = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
 local UIStroke = Instance.new("UIStroke")
@@ -20,7 +19,7 @@ local UIStroke_2 = Instance.new("UIStroke")
 local UIGradient_5 = Instance.new("UIGradient")
 local UIAspectRatioConstraint_2 = Instance.new("UIAspectRatioConstraint")
 local UIGradient_6 = Instance.new("UIGradient")
-local TextButton_2 = Instance.new("TextButton")
+local TextButton = Instance.new("TextButton")
 local UIStroke_3 = Instance.new("UIStroke")
 local UIGradient_7 = Instance.new("UIGradient")
 local UIGradient_8 = Instance.new("UIGradient")
@@ -32,22 +31,13 @@ ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 
-TextButton.Parent = ScreenGui
-TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextButton.BorderSizePixel = 0
-TextButton.Position = UDim2.new(0.0435306877, 0, 0.372041941, 0)
-TextButton.Size = UDim2.new(0, 200, 0, 50)
-TextButton.Font = Enum.Font.SourceSans
-TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-TextButton.TextSize = 14.000
-
 Frame.Parent = ScreenGui
 Frame.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
 Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BorderSizePixel = 0
 Frame.Position = UDim2.new(0.556266308, 0, 0.471335292, 0)
 Frame.Size = UDim2.new(0.358472079, 0, 0.46178633, 0)
+Frame.Visible = false
 
 UICorner.Parent = Frame
 
@@ -121,20 +111,20 @@ UIGradient_6.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fr
 UIGradient_6.Rotation = 45
 UIGradient_6.Parent = Frame_2
 
-TextButton_2.Parent = Frame_2
-TextButton_2.BackgroundColor3 = Color3.fromRGB(102, 102, 102)
-TextButton_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextButton_2.BorderSizePixel = 0
-TextButton_2.Position = UDim2.new(0.0355279259, 0, 0.0629567578, 0)
-TextButton_2.Size = UDim2.new(0.397694886, 0, 0.198311985, 0)
-TextButton_2.Font = Enum.Font.GothamBold
-TextButton_2.Text = "ESP (Off)"
-TextButton_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextButton_2.TextScaled = true
-TextButton_2.TextSize = 14.000
-TextButton_2.TextWrapped = true
+TextButton.Parent = Frame_2
+TextButton.BackgroundColor3 = Color3.fromRGB(102, 102, 102)
+TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BorderSizePixel = 0
+TextButton.Position = UDim2.new(0.0355279259, 0, 0.0629567578, 0)
+TextButton.Size = UDim2.new(0.397694886, 0, 0.198311985, 0)
+TextButton.Font = Enum.Font.GothamBold
+TextButton.Text = "ESP (Off)"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextWrapped = true
 
-UIStroke_3.Parent = TextButton_2
+UIStroke_3.Parent = TextButton
 UIStroke_3.Color = Color3.fromRGB(255, 255, 255)
 UIStroke_3.Thickness = 2.000
 UIStroke_3.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -145,13 +135,21 @@ UIGradient_7.Parent = UIStroke_3
 
 UIGradient_8.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(238, 0, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(0, 26, 255))}
 UIGradient_8.Rotation = 45
-UIGradient_8.Parent = TextButton_2
+UIGradient_8.Parent = TextButton
 
-UICorner_3.Parent = TextButton_2
+UICorner_3.Parent = TextButton
 
 -- Scripts:
 
-local function NNDNKMR_script() -- TextButton.LocalScript 
+local function MASVE_script() -- Frame.LocalScript 
+	local script = Instance.new('LocalScript', Frame)
+
+	local frame = script.Parent
+	frame.Draggable = true
+	frame.Active = true
+end
+coroutine.wrap(MASVE_script)()
+local function COUR_script() -- TextButton.LocalScript 
 	local script = Instance.new('LocalScript', TextButton)
 
 	local Players = game:GetService("Players")
@@ -278,140 +276,4 @@ local function NNDNKMR_script() -- TextButton.LocalScript
 	end)
 	
 end
-coroutine.wrap(NNDNKMR_script)()
-local function VGTSG_script() -- TextButton_2.LocalScript 
-	local script = Instance.new('LocalScript', TextButton_2)
-
-	local Players = game:GetService("Players")
-	local LocalPlayer = Players.LocalPlayer
-	local Button = script.Parent
-	
-	local ESPEnabled = false
-	local boxes = {}
-	
-	local function getBoxColor(plr)
-		local hasKnife = false
-		local hasGun = false
-	
-		-- check character tools
-		for _, tool in pairs(plr.Character:GetChildren()) do
-			if tool:IsA("Tool") then
-				if tool.Name == "Knife" then
-					hasKnife = true
-				elseif tool.Name == "Gun" then
-					hasGun = true
-				end
-			end
-		end
-	
-		-- check backpack tools
-		local backpack = plr:FindFirstChildOfClass("Backpack")
-		if backpack then
-			for _, tool in pairs(backpack:GetChildren()) do
-				if tool:IsA("Tool") then
-					if tool.Name == "Knife" then
-						hasKnife = true
-					elseif tool.Name == "Gun" then
-						hasGun = true
-					end
-				end
-			end
-		end
-	
-		if hasKnife then
-			return Color3.fromRGB(255, 0, 0)
-		elseif hasGun then
-			return Color3.fromRGB(0, 0, 255)
-		else
-			return Color3.fromRGB(0, 255, 0)
-		end
-	end
-	
-	local function updateBoxColor(plr)
-		local char = plr.Character
-		if char and boxes[char] then
-			boxes[char].Color3 = getBoxColor(plr)
-		end
-	end
-	
-	local function addBox(plr)
-		if not ESPEnabled then return end
-		local char = plr.Character
-		if not char or boxes[char] then return end
-	
-		local hrp = char:FindFirstChild("HumanoidRootPart")
-		if not hrp then return end
-	
-		local box = Instance.new("BoxHandleAdornment")
-		box.Adornee = hrp
-		box.AlwaysOnTop = true
-		box.Size = Vector3.new(4, 6, 2)
-		box.Transparency = 0.5
-		box.ZIndex = 0
-		box.Color3 = getBoxColor(plr)
-		box.Parent = hrp
-	
-		boxes[char] = box
-	
-		local function onChildChanged(child)
-			if child:IsA("Tool") then
-				updateBoxColor(plr)
-			end
-		end
-	
-		char.ChildAdded:Connect(onChildChanged)
-		char.ChildRemoved:Connect(onChildChanged)
-	
-		local backpack = plr:FindFirstChildOfClass("Backpack")
-		if backpack then
-			backpack.ChildAdded:Connect(onChildChanged)
-			backpack.ChildRemoved:Connect(onChildChanged)
-		end
-	end
-	
-	local function removeBox(plr)
-		local char = plr.Character
-		if boxes[char] then
-			boxes[char]:Destroy()
-			boxes[char] = nil
-		end
-	end
-	
-	Players.PlayerAdded:Connect(function(plr)
-		if plr ~= LocalPlayer then
-			plr.CharacterAdded:Connect(function()
-				addBox(plr)
-			end)
-		end
-	end)
-	
-	Players.PlayerRemoving:Connect(function(plr)
-		removeBox(plr)
-	end)
-	
-	Button.MouseButton1Click:Connect(function()
-		ESPEnabled = not ESPEnabled
-		if ESPEnabled then
-			Button.Text = "ESP: On"
-			for _, plr in pairs(Players:GetPlayers()) do
-				addBox(plr)
-			end
-		else
-			Button.Text = "ESP: Off"
-			for _, box in pairs(boxes) do
-				box:Destroy()
-			end
-			boxes = {}
-		end
-	end)
-	
-end
-coroutine.wrap(VGTSG_script)()
-local function SKGRRG_script() -- Frame.LocalScript 
-	local script = Instance.new('LocalScript', Frame)
-
-	local frame = script.Parent
-	frame.Draggable = true
-	frame.Active = true
-end
-coroutine.wrap(SKGRRG_script)()
+coroutine.wrap(COUR_script)()
